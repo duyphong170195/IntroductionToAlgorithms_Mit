@@ -52,37 +52,43 @@ public class Node {
         this.right = right;
     }
 
-    public void insertNode(Node node, Node currentNode, int subtreeSize) {
+    public void insertNode(Node node, Node currentNode) {
         if(currentNode.number > node.getNumber()) {
             if(currentNode.left == null) {
                 currentNode.left = node;
                 return;
             }
-            insertNode(node, currentNode.left, currentNode.left.subtreeSize);
+            insertNode(node, currentNode.left);
         } else {
             if(currentNode.right == null) {
                 currentNode.right = node;
                 return;
             }
-            insertNode(node, currentNode.right, subtreeSize);
+            insertNode(node, currentNode.right);
         }
 
     }
 
-//    public void insertNode(Node node, Node currentNode)
-//    {
-//        if(this.number > node.getNumber()) {
-//            if(this.left == null) {
-//                this.left = node;
-//                return;
-//            }
-//            insertNode(node, this.left);
-//        } else {
-//            if(this.right == null) {
-//                this.right = node;
-//                return;
-//            }
-//            insertNode(node, this.right);
-//        }
-//    }
+    public void printGivenPreorderTraversal(Node node) {
+        if(node == null) {
+            return;
+        }
+
+        System.out.println(node.getNumber());
+        printGivenPreorderTraversal(node.getLeft());
+        printGivenPreorderTraversal(node.getRight());
+    }
+
+    public void convertBinaryTreeToBinarySearchTree(Node binaryTree, Node binarySearchTree) {
+        if(binaryTree == null) {
+            return;
+        }
+        if(binarySearchTree.getNumber() == 0) {
+            binarySearchTree = binaryTree;
+        } else {
+            binarySearchTree.insertNode(binaryTree, binarySearchTree);
+            convertBinaryTreeToBinarySearchTree(binarySearchTree.left, binarySearchTree);
+            convertBinaryTreeToBinarySearchTree(binarySearchTree.right, binarySearchTree);
+        }
+    }
 }
