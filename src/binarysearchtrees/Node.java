@@ -1,5 +1,8 @@
 package binarysearchtrees;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Node {
 
     private int number;
@@ -78,17 +81,14 @@ public class Node {
         printGivenPreorderTraversal(node.getLeft());
         printGivenPreorderTraversal(node.getRight());
     }
-
-    public void convertBinaryTreeToBinarySearchTree(Node binaryTree, Node binarySearchTree) {
-        if(binaryTree == null) {
+    public void getDataFromBinaryTree(Node node, List<Integer> listIntegers) {
+        if(node == null) {
             return;
         }
-        if(binarySearchTree.getNumber() == 0) {
-            binarySearchTree = binaryTree;
-        } else {
-            binarySearchTree.insertNode(binaryTree, binarySearchTree);
-            convertBinaryTreeToBinarySearchTree(binarySearchTree.left, binarySearchTree);
-            convertBinaryTreeToBinarySearchTree(binarySearchTree.right, binarySearchTree);
-        }
+
+        listIntegers.add(node.getNumber());
+        getDataFromBinaryTree(node.getLeft(), listIntegers);
+        getDataFromBinaryTree(node.getRight(), listIntegers);
     }
+
 }
