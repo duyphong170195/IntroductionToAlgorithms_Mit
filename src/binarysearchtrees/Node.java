@@ -1,14 +1,14 @@
 package binarysearchtrees;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Node {
 
     private int number;
-    private int subtreeSize;
+    private int subtreeSize = 1;
     private Node left;
     private Node right;
+    private static final int k = 3;
+
+    private static boolean insertSuccess = true;
 
     public Node() {
     }
@@ -55,21 +55,42 @@ public class Node {
         this.right = right;
     }
 
+
     public void insertNode(Node node, Node currentNode) {
         if(currentNode.number > node.getNumber()) {
             if(currentNode.left == null) {
+                if(node.getNumber() + k >= currentNode.getNumber()) {
+                    insertSuccess = false;
+                    System.out.println("Khong the len ke hoach cho node = " + node.getNumber());
+                    return;
+                }
+                insertSuccess = true;
                 currentNode.left = node;
+                currentNode.subtreeSize+=1;
                 return;
             }
             insertNode(node, currentNode.left);
+            if(insertSuccess) {
+                currentNode.subtreeSize += 1;
+            }
+
         } else {
             if(currentNode.right == null) {
+                if(node.getNumber() - k <= currentNode.getNumber()) {
+                    insertSuccess = false;
+                    System.out.println("Khong the len ke hoach cho node = " + node.getNumber());
+                    return;
+                }
+                insertSuccess = true;
                 currentNode.right = node;
+                currentNode.subtreeSize+=1;
                 return;
             }
             insertNode(node, currentNode.right);
+            if(insertSuccess) {
+                currentNode.subtreeSize += 1;
+            }
         }
-
     }
 
     public void printGivenPreorderTraversal(Node node) {
@@ -90,5 +111,4 @@ public class Node {
         getDataFromBinaryTree(node.getLeft(), listIntegers);
         getDataFromBinaryTree(node.getRight(), listIntegers);
     }
-
 }
