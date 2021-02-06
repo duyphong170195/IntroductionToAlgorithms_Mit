@@ -1,5 +1,7 @@
 package binarysearchtrees;
 
+import java.util.List;
+
 public class Node {
 
     private int number;
@@ -56,7 +58,7 @@ public class Node {
     }
 
 
-    public void insertNode(Node node, Node currentNode) {
+    public void insertNodeWithSubsizeTree(Node node, Node currentNode) {
         if(currentNode.number > node.getNumber()) {
             if(currentNode.left == null) {
                 if(node.getNumber() + k >= currentNode.getNumber()) {
@@ -69,7 +71,7 @@ public class Node {
                 currentNode.subtreeSize+=1;
                 return;
             }
-            insertNode(node, currentNode.left);
+            insertNodeWithSubsizeTree(node, currentNode.left);
             if(insertSuccess) {
                 currentNode.subtreeSize += 1;
             }
@@ -86,10 +88,26 @@ public class Node {
                 currentNode.subtreeSize+=1;
                 return;
             }
-            insertNode(node, currentNode.right);
+            insertNodeWithSubsizeTree(node, currentNode.right);
             if(insertSuccess) {
                 currentNode.subtreeSize += 1;
             }
+        }
+    }
+
+    public void insertNode(Node node, Node currentNode) {
+        if(currentNode.number > node.getNumber()) {
+            if(currentNode.left == null) {
+                currentNode.left = node;
+                return;
+            }
+            insertNode(node, currentNode.left);
+        } else {
+            if(currentNode.right == null) {
+                currentNode.right = node;
+                return;
+            }
+            insertNode(node, currentNode.right);
         }
     }
 
