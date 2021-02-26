@@ -22,7 +22,7 @@ public class ConvertBinaryTreeToBST {
         rootNode3R.setRight(rootNode5R);
 
         LinkedList<Integer> integerList= convertBinaryTreeToSortedArray(rootNode);
-        Node binarySearchTree = convertArrayToBST(integerList);
+        Node binarySearchTree = convertListToBST(integerList, 0, integerList.size() - 1);
         binarySearchTree.printGivenPreorderTraversal(binarySearchTree);
 
     }
@@ -49,7 +49,20 @@ public class ConvertBinaryTreeToBST {
 //
 //        return binarySearchTree;
 //    }
-    public static Node convertArrayToBST(List<Integer> integerList) {
+    public static Node convertListToBST(List<Integer> integerList, int start, int end) {
+        if(start > end) {
+            return null;
+        }
+        int sizeOnTwo = (start + end)/2;
+        Node binarySearchTree = new Node(integerList.get(sizeOnTwo));
+        if(start < end){
+            binarySearchTree.setLeft(convertListToBST(integerList, start, sizeOnTwo - 1));
+            binarySearchTree.setRight(convertListToBST(integerList, sizeOnTwo + 1, end));
+        }
+        return binarySearchTree;
+    }
+
+    public static Node convertListToBST(List<Integer> integerList) {
         int size = integerList.size();
         if(size == 1) {
             return new Node(integerList.get(0));
@@ -60,14 +73,12 @@ public class ConvertBinaryTreeToBST {
         List<Integer> subLeftArray = integerList.subList(0, sizeOnTwo);
         List<Integer> subRightArray = integerList.subList(sizeOnTwo+1, size);
         if(subLeftArray.size() > 0) {
-            binarySearchTree.insertNode(convertArrayToBST(subLeftArray), binarySearchTree);
+            binarySearchTree.insertNode(convertListToBST(subLeftArray), binarySearchTree);
         }
         if(subRightArray.size() > 0) {
-            binarySearchTree.insertNode(convertArrayToBST(subRightArray), binarySearchTree);
+            binarySearchTree.insertNode(convertListToBST(subRightArray), binarySearchTree);
         }
 
         return binarySearchTree;
     }
-
-
 }
